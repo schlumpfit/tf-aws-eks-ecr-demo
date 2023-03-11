@@ -1,0 +1,27 @@
+{
+    "name": "Terraform AWS Python Flask",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "../"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": { 
+                "terminal.integrated.shell.linux": "/bin/zsh"
+            },
+            "extensions": [
+                "redhat.vscode-yaml",
+                "hashicorp.hcl",
+                "hashicorp.terraform",
+                "ms-kubernetes-tools.vscode-kubernetes-tools"
+            ]
+        }
+    },
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+        //"source=~/.config/,target=~/.config,type=bind"
+    ],
+    "forwardPorts": [ 5000 ],
+    "postCreateCommand": "poetry install",
+    "remoteUser": "vscode"
+}
