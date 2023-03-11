@@ -1,0 +1,65 @@
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: public-lb
+#   annotations:
+#     service.beta.kubernetes.io/aws-load-balancer-type: nlb
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: flask-demo-app
+#   ports:
+#   - port: 80
+#     targetPort: web
+---
+kind: Service
+metadata:
+  name: flask-demo-app-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    app: flask-demo-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: web
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks-demo-ecr-oidc
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::...:role/eks-demo-ecr-oidc # <terraform output eks_demo_ecr_policy_arn>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-demo-app-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-demo-app
+  template:
+    metadata:
+      labels:
+        app: flask-demo-app
+    spec:
+      serviceAccountName: eks-demo-ecr-oidc
+      containers:
+      - name: eks-demo-flask-app
+        image: <>.dkr.ecr.eu-central-1.amazonaws.com/eks_demo:0.1.0 # terraform output eks_demo_ecr_iamge_name
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: web
+          containerPort: 5000
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 350m
+          limits:
+            memory: 256Mi
+            cpu: 350m
