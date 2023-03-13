@@ -46,12 +46,12 @@ resource "aws_eks_node_group" "private_nodes" {
   ]
 
   instance_types = ["t3.small"]
-  capacity_type  = "SPOT"
+  capacity_type  = "SPOT" # Just for testing
 
   scaling_config {
     desired_size = 1
-    max_size     = 2
-    min_size     = 0
+    max_size     = 1
+    min_size     = 1
   }
 
   labels = {
