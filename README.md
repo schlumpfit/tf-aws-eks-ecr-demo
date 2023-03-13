@@ -34,6 +34,6 @@ aws eks update-kubeconfig --region eu-central-1 --name eks_demo1
 kubectl get svc
 
 cd ../k8s
-kubectl apply -f app-deployment.yml
+kubectl apply -f flask-app-deployment.yml
 kubectl get svc
 ```
