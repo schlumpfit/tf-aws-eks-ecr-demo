@@ -34,6 +34,7 @@ RUN apt-get update \
     sudo \
     curl \
     git \
+    ssh \
     unzip \
     tar \
     vim \
