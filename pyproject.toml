@@ -2,7 +2,7 @@
 name = "flask-app"
 version = "0.1.0"
 description = ""
-authors = ["Paul <github@paulfranze.de>"]
+authors = ["Paul"]
 readme = "README.md"
 packages = [{include = "flask-app"}]
 
